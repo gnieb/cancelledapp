@@ -12,6 +12,13 @@ flask-restful = "*"
 flask-sqlalchemy = "*"
 importlib-metadata = "*"
 importlib-resources = "*"
+flask-bcrypt = "*"
+flask-cors = "*"
+flask-session = "*"
+requests = "*"
+flask-sqlalchemy-session = "*"
+pyjwt = "*"
+bcrypt = "*"
 
 [dev-packages]
 
