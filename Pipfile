@@ -9,6 +9,9 @@ sqlalchemy = "*"
 sqlalchemy-serializer = "*"
 flask-migrate = "*"
 flask-restful = "*"
+flask-sqlalchemy = "*"
+importlib-metadata = "*"
+importlib-resources = "*"
 
 [dev-packages]
 
