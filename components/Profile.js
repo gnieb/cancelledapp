@@ -1,7 +1,7 @@
+import { Text } from "react-native";
+
 export default function Profile () {
     return (
-        <>
-        PROFILE PAGE
-        </>
+        <Text>PROFILE</Text>
     )
 }
