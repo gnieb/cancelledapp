@@ -7,14 +7,15 @@ from datetime import datetime
 
 # User —--< u/p >-------plan
 
-# followers = db.Table('followers',
-#     db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
-#     db.Column('followee_id', db.Integer, db.ForeignKey('users.id')))
+followers = db.Table('followers',
+    db.Column('follower_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('followee_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
+)
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ('-puinstances', '-plans')
+    serialize_rules = ('-puinstances', '-plans', '-followers')
 
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String, nullable=False)
@@ -24,9 +25,11 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
     puinstances = db.relationship('PUInstance', backref='user' )
     plans = association_proxy('puinstances', 'plan')
-    # followers = db.relationship('User', 
-    #                             primaryjoin=('followers.c.followee_id == User.id'),
-    #                              secondaryjoin=('followers.c.follower_id == User.id'))
+    followers = db.relationship('User', 
+                                secondary = followers,
+                                primaryjoin=('followers.c.followee_id == User.id'),
+                                 secondaryjoin=('followers.c.follower_id == User.id'),
+                                 backref=db.backref('following', lazy='dynamic'), lazy='dynamic')
 
     @hybrid_property
     def password_hash(self):
