@@ -56,9 +56,31 @@ class Signup(Resource):
         
         return response
             
+class Login(Resource):
+    def post(self):
+        sub_user = request.get_json().get('username').lower()
+        sub_pass = request.get_json().get('password')
+        sel_user = User.query.filter(User.username == sub_user.one_or_none())
+        if sel_user == None or sel_user.authenticate(sub_pass) == False:
+            return make_response({"error": "Invalid Username or Password"}, 401)
+        else:
+            token = jwt.encode(
+                {
+                    'user_id': sel_user.id},
+                    key = SECRET_KEY,
+                    algorithm = 'HS256'
+            )
+            response = make_response(
+                sel_user.to_dict(
+                only = ('username', 'email')),
+                201,
+                {'Authorization': f'Bearer {token}'}
+            )
+        return response
 
 api.add_resource(Home, '/')
 api.add_resource(Signup, '/signup')
+api.add_resource(Login, '/login')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
