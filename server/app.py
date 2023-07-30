@@ -4,8 +4,28 @@ from config import app, db, api
 from models import Plan, User, PUInstance
 from sqlalchemy.exc import IntegrityError
 import jwt
-# import os
-# from jwt.exception import DecodeError, InvalidTokenError, InvalidSignatureError
+import os
+from jwt.exceptions import DecodeError, InvalidTokenError, InvalidSignatureError
+
+SECRET_KEY = os.urandom(16)
+
+def JWT_Authentication_Decorator(func):
+
+    def wrapper_func(*args, **kwargs):
+        
+        decoded_token = request.headers.get('Authorization').split(' ')[1]
+        try:
+            jwt.decode(
+                jwt = decoded_token,
+                key = SECRET_KEY,
+                algorithms = ['HS256'],
+            )
+        except:
+            return make_response({"error": "Authentication failed - Token Error"},401)
+
+        return func(*args, **kwargs)
+
+    return wrapper_func
 
 class Home(Resource):
     def get(self):
