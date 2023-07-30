@@ -4,8 +4,8 @@ from config import app, db, api
 from models import Plan, User, PUInstance
 from sqlalchemy.exc import IntegrityError
 import jwt
-import os
-from jwt.exception import DecodeError, InvalidTokenError, InvalidSignatureError
+# import os
+# from jwt.exception import DecodeError, InvalidTokenError, InvalidSignatureError
 
 class Home(Resource):
     def get(self):
