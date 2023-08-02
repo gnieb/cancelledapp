@@ -2,10 +2,12 @@ import { View, Switch, Modal, TouchableOpacity, Text } from 'react-native'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import Login from './Login'
+import Home from '../Home'
 
 function Auth({navigation}) {
 
     const [isLogin, setIsLogin] = useState('login')
+    const [modalVisible, setModalVisible] = useState(false)
     const [recentError, setRecentError] = useState(null)
     const { setUserToken } = useContext(AuthContext)
     const toggleSwitch = (e) => {
@@ -24,7 +26,7 @@ function Auth({navigation}) {
             await SecureStore.setItemAsync('token', token)
             setUserToken(await SecureStore.getItemAsync('token'))
             navigation.dispatch(
-                StackActions.replace('AppContainer')
+                StackActions.replace('Home')
             )
         } else{
             r.json().then(err => {
