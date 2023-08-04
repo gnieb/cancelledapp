@@ -5,7 +5,7 @@ import Calendar from './Calendar';
 import Profile from './Profile';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from './context/AuthContext';
-import LogOutModal from './Login and Auth/LogOutModa';
+import SignUp from './Login and Auth/SignUp';
 import Login from './Login and Auth/Login';
 
 
@@ -22,7 +22,7 @@ function Nav () {
                 <Drawer.Screen name="Home" component={Home} options={{title: 'HOME'}} />
                 <Drawer.Screen name="Profile" component={Profile} options={{title: "PROFILE"}} />
                 <Drawer.Screen name="Calendar" component={Calendar} options={{title:'CALENDAR'}} />
-                <Drawer.Screen name="Logout" component={LogOutModal} options={{title: 'LOGOUT'}} />
+                <Drawer.Screen name="Sign Up" component={SignUp} options={{title: 'SIGN UP'}} />
                 <Drawer.Screen name="Login" component={Login} options={{title:'LOGIN'}} />
             </Drawer.Navigator>
        
