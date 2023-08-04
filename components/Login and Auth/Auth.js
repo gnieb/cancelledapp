@@ -16,7 +16,7 @@ function Auth({navigation}) {
 
     async function handleLogInSubmit(formObj) {
         try{
-            const r = await fetch(`???/${isLogin}`,{
+            const r = await fetch(`http://127.0.0.1:5555/${isLogin}`,{
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(formObj)

@@ -4,10 +4,7 @@ from config import app, db, api
 from models import Plan, User, PUInstance
 from sqlalchemy.exc import IntegrityError
 import jwt
-import os
-from jwt.exceptions import DecodeError, InvalidTokenError, InvalidSignatureError
 
-SECRET_KEY = os.urandom(16)
 
 def JWT_Authentication_Decorator(func):
 
