@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SECRET_KEY'] = b'\xbb\xf7\xb9j\x07o\xa5\xad\x00\x8c\x15\xb8\xa4\xe7h\xc7'
 app.json.compact = False
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",

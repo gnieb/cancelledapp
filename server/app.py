@@ -3,7 +3,16 @@ from flask_restful import Resource
 from config import app, db, api
 from models import Plan, User, PUInstance
 from sqlalchemy.exc import IntegrityError
+from dotenv import load_dotenv
 import jwt
+import os
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+# def myKEY():
+#     print(f'secret key is: {SECRET_KEY}')
 
 
 def JWT_Authentication_Decorator(func):
