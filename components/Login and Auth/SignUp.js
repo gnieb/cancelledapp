@@ -6,13 +6,9 @@ function SignUp({handleLogInSubmit}) {
 
     const signUpFormSchema = yup.object().shape({
         username : yup.string()
-            .required('You must enter a username!')
-            .matches(/^\w+$/, 'Username can only contain letters, numbers, and underscores')
-            .min(8),
+            .required('You must enter a username!'),
         password : yup.string()
-            .required('You must enter a password!')
-            .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-\=[\]{};':"\\|,.<>\/?])/, 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
-            .min(8),
+            .required('You must enter a password!'),
         email: yup.string()
             .required('You must enter an email!')
             .email("Invalid Email!")
