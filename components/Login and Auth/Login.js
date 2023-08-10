@@ -10,7 +10,7 @@ function Login({handleLogInSubmit}) {
 
     const [login, setLogin] = useState(emptyLoginObj)
 
-    const handleLoginSubmit = () => {
+    const handleWelcome = () => {
         handleLogInSubmit(login)
         setLogin(emptyLoginObj)
     }
@@ -37,7 +37,7 @@ function Login({handleLogInSubmit}) {
             </TextInput>
             <Button
                 title = 'Login'
-                onPress = {handleLoginSubmit}
+                onPress = {handleWelcome}
             >
             </Button>
         </View>

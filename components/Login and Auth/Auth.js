@@ -2,6 +2,7 @@ import { View, Switch, Modal, TouchableOpacity, Text } from 'react-native'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import Login from './Login'
+import SignUp from './SignUp'
 import Home from '../Home'
 
 function Auth({navigation}) {
@@ -14,7 +15,7 @@ function Auth({navigation}) {
 
     async function handleLogInSubmit(formObj) {
         try{
-            const r = await fetch(`http://127.0.0.1:5555/${isLogin}`,{
+            const r = await fetch(`http://127.0.0.1:5555/${login}`,{
             method: "POST",
             headers: {"Content-Type":"application/json"},
             body: JSON.stringify(formObj)

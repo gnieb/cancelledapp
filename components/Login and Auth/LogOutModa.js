@@ -23,7 +23,7 @@ function LogOutModal({navigation}) {
             onRequestClose={() => setLogOutModalVisible(false)}
         >
             <View>
-                <Text>Your Session Has Timed Out - Please Login to Continue</Text>
+                <Text>Please Login to Continue</Text>
             </View>
         </Modal>
     )
