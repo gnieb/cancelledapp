@@ -7,8 +7,6 @@ import Home from '../Home'
 function Auth({navigation}) {
 
     const [isLogin, setIsLogin] = useState('login')
-    const [modalVisible, setModalVisible] = useState(false)
-    const [recentError, setRecentError] = useState(null)
     const { setUserToken } = useContext(AuthContext)
     const toggleSwitch = (e) => {
         setIsLogin(isLogin === 'login' ? 'signup' : 'login')
