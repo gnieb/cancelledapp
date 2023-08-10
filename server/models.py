@@ -23,6 +23,7 @@ class User(db.Model, SerializerMixin):
     birth_year = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
+    email = db.Column(db.String)
     puinstances = db.relationship('PUInstance', backref='user' )
     plans = association_proxy('puinstances', 'plan')
     followers = db.relationship('User', 
@@ -33,7 +34,7 @@ class User(db.Model, SerializerMixin):
 
     @hybrid_property
     def password_hash(self):
-        raise Exception('Password hashes may not be viewed')
+        return self._password_hash
     
     @password_hash.setter
     def password_hash(self, password):
