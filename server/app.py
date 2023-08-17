@@ -15,27 +15,12 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 #     print(f'secret key is: {SECRET_KEY}')
 
 
-def JWT_Authentication_Decorator(func):
-
-    def wrapper_func(*args, **kwargs):
-        
-        decoded_token = request.headers.get('Authorization').split(' ')[1]
-        try:
-            jwt.decode(
-                jwt = decoded_token,
-                key = SECRET_KEY,
-                algorithms = ['HS256'],
-            )
-        except:
-            return make_response({"error": "Authentication failed - Token Error"},401)
-
-        return func(*args, **kwargs)
-
-    return wrapper_func
 
 class Home(Resource):
     def get(self):
         return make_response("YEEHAW")
+
+api.add_resource(Home, '/')
 
 class Signup(Resource):
     def post(self):
@@ -84,29 +69,23 @@ class Signup(Resource):
             
 class Login(Resource):
     def post(self):
-        sub_user = request.get_json().get('username').lower()
-        sub_pass = request.get_json().get('password')
-        sel_user = User.query.filter(User.username == sub_user.one_or_none())
-        if sel_user == None or sel_user.authenticate(sub_pass) == False:
-            return make_response({"error": "Invalid Username or Password"}, 401)
-        else:
-            token = jwt.encode(
-                {
-                    'user_id': sel_user.id},
-                    key = SECRET_KEY,
-                    algorithm = 'HS256'
-            )
-            response = make_response(
-                sel_user.to_dict(
-                only = ('username', 'email')),
-                201,
-                {'Authorization': f'Bearer {token}'}
-            )
-        return response
+        data = request.get_json()
+        user = User.query.filter_by(email = data['email'].first())
 
-api.add_resource(Home, '/')
-api.add_resource(Signup, '/signup')
+        if not user:
+            return make_response({'error' : 'Could Not Verify Identity'}, 401)
+        
+        if not user and user.authenticate(data['_password_hash']):
+            token = jwt.encode({'id': user.id}, SECRET_KEY )
+
+        return make_response({'token' : token.decode('UTF-8'), 'user' : user.to_dict()}, 200)
+    
 api.add_resource(Login, '/login')
+
+api.add_resource(Signup, '/signup')
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
+
+
