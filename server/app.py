@@ -15,57 +15,39 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 #     print(f'secret key is: {SECRET_KEY}')
 
 
-
 class Home(Resource):
     def get(self):
         return make_response("YEEHAW")
 
 api.add_resource(Home, '/')
 
-class Signup(Resource):
+class Users(Resource):
+    def get(self):
+        users = [u.to_dict() for u in User.query.all()]
+        return make_response(users, 201)
+    
     def post(self):
-        user_attr = ["username", "password", "email"]
-        user_obj = {}
+        data = request.get_json()
+        user = User.query.filter_by(email = data['email']).first()
 
-        for attr in user_attr:
-            user_obj[attr] = request.get_json()[attr]
-
-        try:
-            newUser = User(
-                username = user_obj[f'{user_attr[0]}'],
-                password_hash = user_obj[f'{user_attr[1]}'],
-                email = user_obj[f'{user_attr[2]}'],
-            )
+        if user:
+            return make_response({'error':'sorry looks like this email address is already taken'}, 400)
         
-        except ValueError as e:
-            return make_response({"Value Error" : f"{e}"}, 400 )
-        except KeyError as e:
-            return make_response({"Value Error" : f"{e}"}, 400 )
-        
-        try:
-            db.session.add(newUser)
-            db.session.commit()
-        except IntegrityError:
-            db.session.rollback()
-            return make_response({
-                "Integrity Error": "Sorry this Username is Already Taken - Please Choose Another"
-            }, 400 )
-        db_user = User.query.filter(User.username == user_obj[f'{user_attr[0]}']).one()
-        token = jwt.encode(
-            {
-                'user_id' : db_user.id },
-                SECRET_KEY,
-                algorithm='HS256'
-        )
-
-        response = make_response(
-            newUser.to_dict(
-                only = ('username', 'email')),
-            201, 
-            {'Authorization': f'Bearer{token}'}
-            )
-        
-        return response
+        if user == None:
+            try:
+                newbie=User(username = data['username'], _password_hash = data['_password_hash'],  email = data['email'])
+                newbie.password_hash=newbie._password_hash
+                hashed_pass=newbie._password_hash
+                new_user=User(  username = data['username'], _password_hash = hashed_pass, email = data['email'],)
+                db.session.add(new_user)
+                db.session.commit()
+                
+                token = jwt.encode({'id': new_user.id}, SECRET_KEY )
+                return make_response({'token' : token.decode('UTF-8'), 'user': new_user.to_dict()}, 200)
+            except:
+                return make_response({'error': 'user input invalid'}, 400)
+    
+api.add_resource(Users, '/users')
             
 class Login(Resource):
     def post(self):
@@ -82,7 +64,6 @@ class Login(Resource):
     
 api.add_resource(Login, '/login')
 
-api.add_resource(Signup, '/signup')
 
 
 if __name__ == '__main__':
