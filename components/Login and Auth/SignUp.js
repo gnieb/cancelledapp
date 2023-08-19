@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, TextInput, StyleSheet, Pressable} from 'react-native';
+import {View, Text, TextInput, Button, Pressable} from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 
 function SignUp() {
@@ -28,9 +28,10 @@ function SignUp() {
                 onChangeText={text => setNewEmail(text)}
                 autoCapitalize='none'
             />
-            <Pressable onPress={()=>
-                {createAccount(newUsername, newPassword,newEmail,)}}> 
-            </Pressable>
+            <Button onPress={()=>
+                {createAccount(newUsername, newPassword,newEmail,)}}
+                title='Create Account'
+            /> 
         </View>
       
   )
