@@ -1,43 +1,23 @@
 import { View, TextInput, Button, Text } from 'react-native'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
-function Login({handleLogInSubmit}) {
+function Login() {
 
-    const emptyLoginObj = {
-        username: '',
-        password: ''
-    }
 
-    const [login, setLogin] = useState(emptyLoginObj)
-
-    const handleWelcome = () => {
-        handleLogInSubmit(login)
-        setLogin(emptyLoginObj)
-    }
-
-    const handleInputChange = ( id, text ) => {
-        setLogin(() => {return(
-            {...login, [id]: text }
-        )})
-    }
 
     return(
         <View>
             <TextInput
                 placeholder = 'username'
-                onChangeText={(text) => handleInputChange('username', text)}
-                value = {login.username}
             >
             </TextInput>
             <TextInput
                 placeholder = 'password'
-                onChangeText={(text) => handleInputChange('password', text)}
-                value = {login.password}
             >
             </TextInput>
             <Button
-                title = 'Login'
-                onPress = {handleWelcome}
+                title = 'lets cancel some plans'
             >
             </Button>
         </View>
