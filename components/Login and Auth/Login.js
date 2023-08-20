@@ -1,4 +1,4 @@
-import { View, TextInput, Button, Text, Pressable } from 'react-native'
+import { View, TextInput, Button, Text} from 'react-native'
 import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
@@ -6,8 +6,7 @@ function Login() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
-    const login = useContext(AuthContext)
+    const {login} = useContext(AuthContext)
 
     return(
         <View>
@@ -28,8 +27,7 @@ function Login() {
             <Button
                 title = 'Ready to Recharge'
                 onPress={() => {login(username, password)}}
-            >
-            </Button>
+            /> 
         </View>
     )
 }
