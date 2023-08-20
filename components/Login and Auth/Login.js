@@ -6,7 +6,12 @@ function Login() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loginError, setLoginError] = useState(null)
     const {login} = useContext(AuthContext)
+
+    const loginValidation = loginValidator => {
+        setLoginError(loginValidator)
+    }
 
     return(
         <View>
@@ -26,7 +31,7 @@ function Login() {
             />
             <Button
                 title = 'Ready to Recharge'
-                onPress={() => {login(username, password)}}
+                onPress={() => {login(username, password, loginValidation)}}
             /> 
         </View>
     )

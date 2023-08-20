@@ -29,7 +29,7 @@ function SignUp() {
                 autoCapitalize='none'
             />
             <Button onPress={()=>
-                {createAccount(newUsername, newPassword,newEmail,)}}
+                {singUp(newUsernamp, newPassword,newEmail,)}}
                 title='Create Account'
             /> 
         </View>
