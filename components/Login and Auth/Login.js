@@ -1,45 +1,38 @@
-import { View, TextInput, Button, Text } from 'react-native'
-import { useState } from 'react'
+import { View, TextInput, Button, Text} from 'react-native'
+import { useState, useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
-function Login({handleLogInSubmit}) {
+function Login() {
 
-    const emptyLoginObj = {
-        username: '',
-        password: ''
-    }
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [loginError, setLoginError] = useState(null)
+    const {login} = useContext(AuthContext)
 
-    const [login, setLogin] = useState(emptyLoginObj)
-
-    const handleWelcome = () => {
-        handleLogInSubmit(login)
-        setLogin(emptyLoginObj)
-    }
-
-    const handleInputChange = ( id, text ) => {
-        setLogin(() => {return(
-            {...login, [id]: text }
-        )})
+    const loginValidation = loginValidator => {
+        setLoginError(loginValidator)
     }
 
     return(
         <View>
+            <Text>Lets Cancel Some Plans</Text>
             <TextInput
                 placeholder = 'username'
-                onChangeText={(text) => handleInputChange('username', text)}
-                value = {login.username}
-            >
-            </TextInput>
+                value={username}
+                autoCapitalize='none'
+                onChangeText={text => setUsername(text)}
+            />
             <TextInput
                 placeholder = 'password'
-                onChangeText={(text) => handleInputChange('password', text)}
-                value = {login.password}
-            >
-            </TextInput>
+                value={password}
+                autoCapitalize='none'
+                secureTextEntry={true}
+                onChangeText={text => setPassword(text)}
+            />
             <Button
-                title = 'Login'
-                onPress = {handleWelcome}
-            >
-            </Button>
+                title = 'Ready to Recharge'
+                onPress={() => {login(username, password, loginValidation)}}
+            /> 
         </View>
     )
 }
